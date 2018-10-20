@@ -22,10 +22,8 @@ app.set("view engine", "ejs");
 const client = require("./routes/api/client");
 
 //clean up process
-var findRemoveSync = require("find-remove");
-findRemoveSync(__dirname + "/public/processedImages", {
-  age: { seconds: 3600 }
-});
+var findRemoveSync = require('find-remove');
+findRemoveSync(__dirname + '/public/processedImages', {age: {seconds: 3600}});
 
 app.get("/", (req, res) => {
   res.render("test");
