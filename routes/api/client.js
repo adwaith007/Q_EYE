@@ -4,6 +4,10 @@ var multer =require('multer');
 var path=require('path');
 var express=require('express');
 var router = express.router();
+var FCM = require('fcm-push');
+
+var serverkey = '<insert-server-key>';  
+var fcm = new FCM(serverkey);
 
 function runqEye(filepath){
     var spawn = require("child_process").spawn;
@@ -51,6 +55,28 @@ function checkFileType(file, cb){
     upload(req,res,function(err){
         if(err) throw err;
     });
+     var {isThreat , imageUrl, confidence} = runqEye(req.file.path.toString());
+
+    var message = {  
+      to : '<insert-device-token>',
+      collapse_key : '<insert-collapse-key>',
+      data : {
+           message: "Alert threat detected!!!",
+           imageUrl : imageUrl,
+           confidence: confidence
+      }
+    };
+
+    if(isThreat){
+      fcm.send(message, function(err,response){  
+        if(err) {
+            console.log("Something has gone wrong !");
+        } else {
+            console.log("Successfully sent with resposne :",response);
+        }
+      });
+    }
+
   });
 
   module.exports= router;
