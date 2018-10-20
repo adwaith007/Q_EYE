@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "child_process": "^1.0.2",
     "connect": "^3.6.6",
     "express": "^4.16.4",
+    "find-remove": "^1.2.2",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.4",
     "nodemon": "^1.18.4",
