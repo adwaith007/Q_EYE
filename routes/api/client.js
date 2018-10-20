@@ -30,7 +30,6 @@ const upload = multer({
   limits: { fileSize: 1000000 },
   fileFilter: function(req, file, cb) {
     checkFileType(file, cb);
-<<<<<<< HEAD
   }
 }).single("file");
 
@@ -76,31 +75,4 @@ router.post("/sendimg", function(req, res) {
   });
 });
 
-=======
-  }
-}).single("file");
-
-function checkFileType(file, cb) {
-  // Allowed ext
-  const filetypes = /jpeg|jpg/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb("Error: Jpeg Images Only!");
-  }
-}
-
-router.post("/sendimg", function(req, res) {
-  upload(req, res, function(err) {
-    if (err) throw err;
-    else res.status(200).json({ success: "true" });
-  });
-});
-
->>>>>>> Add img upload view
 module.exports = router;
