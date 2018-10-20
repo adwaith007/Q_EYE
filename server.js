@@ -30,8 +30,6 @@ mongoose
   .then(() => console.log("MongoDB connected!"))
   .catch(err => console.log(err));
 
-app.use("/api/users", users);
-app.use("/api/profile", profile);
-app.use("/api/posts", posts);
+app.use("/api/client", client);
 
 app.listen(port, () => console.log("Server running on port" + port));
