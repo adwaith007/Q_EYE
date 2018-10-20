@@ -17,11 +17,11 @@ app.use(passport.initialize());
 
 const client = require("./routes/api/client");
 
-
 //clean up process every week
-var findRemoveSync = require('find-remove');
-findRemoveSync(__dirname + '/public/processedImages', {age: {seconds: 604800}});
-
+var findRemoveSync = require("find-remove");
+findRemoveSync(__dirname + "/public/processedImages", {
+  age: { seconds: 604800 }
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to Q-Eye!! What are you doing here?");
