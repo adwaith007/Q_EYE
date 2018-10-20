@@ -32,7 +32,7 @@ const upload = multer({
     checkFileType(file, cb);
 <<<<<<< HEAD
   }
-}).single("picture");
+}).single("file");
 
 function checkFileType(file, cb) {
   // Allowed ext
