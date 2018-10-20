@@ -18,9 +18,15 @@ app.use(passport.initialize());
 const client = require("./routes/api/client");
 
 
+<<<<<<< HEAD
 //clean up process
 var findRemoveSync = require('find-remove');
 findRemoveSync(__dirname + '/public/processedImages', {age: {seconds: 3600}});
+=======
+//clean up process every week
+var findRemoveSync = require('find-remove');
+findRemoveSync(__dirname + '/public/processedImages', {age: {seconds: 604800}});
+>>>>>>> Add client functionality
 
 
 app.get("/", (req, res) => {
