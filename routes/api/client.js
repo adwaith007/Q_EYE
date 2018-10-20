@@ -10,8 +10,9 @@ var serverkey = "<insert-server-key>";
 var fcm = new FCM(serverkey);
 
 function runqEye(filepath) {
+  var arg = '--image='+filepath;
   var spawn = require("child_process").spawn;
-  var process = spawn("python", ["./qEye.py", filepath]);
+  var process = spawn("python", ["./X-Ray-Scanner/scripts/label_image.py", arg, filepath]);
 
   process.stdout.on("data", function(data) {
     data = JSON.parse(data);
