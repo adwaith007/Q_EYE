@@ -1,12 +1,12 @@
-var mongoose = require("mongoose");
-var fs = require("fs");
-var multer = require("multer");
-var path = require("path");
-var express = require("express");
+var mongoose= require('mongoose');
+var fs= require('fs');
+var multer =require('multer');
+var path=require('path');
+var express=require('express');
 var router = express.Router();
-var FCM = require("fcm-push");
+var FCM = require('fcm-push');
 
-var serverkey = "<insert-server-key>";
+var serverkey = 'AAAAxvVzlqY:APA91bFSoT0mqiy1tzs96ZfRVfPVOU923tXCMkmMtct30HHKWLsr6CEtFXjCZ-tlO1Iv61hIUpgMMVfFTHRKK_Mao-DZb9wg2SYHrxKk2ETco1z7si7UtehVWqfAVxc7V4NxyG8K3p3O';  
 var fcm = new FCM(serverkey);
 
 function runqEye(filepath) {
@@ -48,30 +48,50 @@ function checkFileType(file, cb) {
   }
 }
 
-router.post("/sendimg", function(req, res) {
-  upload(req, res, function(err) {
-    if (err) throw err;
-    var { isThreat, imageUrl, confidence } = runqEye(req.file.path.toString());
+  router.post('/sendimg', function(req,res){
+    upload(req,res,function(err){
+        if(err) throw err;
+        var {isThreat , imageUrl, confidence} = runqEye(req.file.path.toString());
 
-    var message = {
-      to: "<insert-device-token>",
-      collapse_key: "<insert-collapse-key>",
-      data: {
-        message: "Alert threat detected!!!",
-        imageUrl: imageUrl,
-        confidence: confidence
-      }
-    };
+        var message = {  
+          to : 'fmYOSjDJQX4:APA91bFN4zqKSTAEHYH6iy7NTHlIZc1SybmgDG37sEbzRX0-S0ryRUssjYoQHSPjsphgyYcdinqp8sMBNJ-yOqLLZUTVKkWraKKaOQCtnjzxZvOD6I4px0j3T8yjDeX8ln6zKtKmZ4ma',
+          data : {
+            imageUrl : imageUrl
+          },
+          notification : {
+            title : '',
+            body : "Alert threat detected!!!"
+          } 
+        };
 
-    if (isThreat) {
-      fcm.send(message, function(err, response) {
-        if (err) {
-          console.log("Something has gone wrong !");
-        } else {
-          console.log("Successfully sent with resposne :", response);
+        if(isThreat){
+          fcm.send(message, function(err,response){  
+            if(err) {
+                console.log("Something has gone wrong !");
+            } else {
+                console.log("Successfully sent with resposne :",response);
+            }
+          });
+          fs.rename(imageUrl, './public/threats/' + imageUrl.split('/').pop(), function(){
+            res.json({
+              isThreat:isThreat,
+              imageUrl : imageUrl,
+              confidence: confidence
+            });
+          })
         }
-      });
-    }
+        else{
+          fs.rename(imageUrl, './public/processedImages/'+imageUrl.split('/').pop(), function(){
+            res.json({
+              isThreat:isThreat,
+              message: "Alert threat detected!!!",
+              imageUrl : imageUrl,
+              confidence: confidence
+            });
+          })
+        }
+    });
+
   });
 });
 
