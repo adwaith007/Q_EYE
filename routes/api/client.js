@@ -96,25 +96,34 @@ function checkFileType(file, cb) {
   });
 
 router.post('/signin', function(req,res){
-    User.findOne({username:req.body.username},function(user,err){
+  console.log(req.body);
+    User.findOne({username:req.body.username},function(err, user){
+      if (err) {
+        console.log(err);
+      }
       if(user){
-        if(user.password==req.body.password){
+        if(user.password===req.body.password){
+          console.log('1');
+
           res.json({
             success: true,
-            message: "Login successfull!!"
-          });
-        }
+            message: "Success"
+          });        }
         else{
+          console.log('2');
+
           res.json({
             success: false,
-            message: "Wrong Password!!"
+            message: "Wrong"
           });
         }
       }
       else{
+        console.log('3');
+
         res.json({
           success: false,
-          message: "User does not exists!!"
+          message: "User does not exists"
         });
       }
     })

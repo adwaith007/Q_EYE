@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const morgan= require("morgan");
 
 const app = express();
 
@@ -10,6 +11,12 @@ app.use(express.static("public"));
 //Bodyparser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
+// const User=require('./models/User');
+// var user = new User();
+// user.username="adwaith";
+// user.password="adwaith";
+// user.save();
 
 //Passport config
 require("./config/passport")(passport);
