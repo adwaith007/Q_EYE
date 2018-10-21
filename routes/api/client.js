@@ -5,6 +5,7 @@ var path=require('path');
 var express=require('express');
 var router = express.Router();
 var FCM = require('fcm-push');
+var User= require('../../models/User');
 
 var serverkey = 'AAAAxvVzlqY:APA91bFSoT0mqiy1tzs96ZfRVfPVOU923tXCMkmMtct30HHKWLsr6CEtFXjCZ-tlO1Iv61hIUpgMMVfFTHRKK_Mao-DZb9wg2SYHrxKk2ETco1z7si7UtehVWqfAVxc7V4NxyG8K3p3O';  
 var fcm = new FCM(serverkey);
@@ -93,6 +94,30 @@ function checkFileType(file, cb) {
     });
 
   });
-});
+
+router.post('/signin', function(req,res){
+    User.findOne({username:req.body.username},function(user,err){
+      if(user){
+        if(user.password==req.body.password){
+          res.json({
+            success: true,
+            message: "Login successfull!!"
+          });
+        }
+        else{
+          res.json({
+            success: false,
+            message: "Wrong Password!!"
+          });
+        }
+      }
+      else{
+        res.json({
+          success: false,
+          message: "User does not exists!!"
+        });
+      }
+    })
+})
 
 module.exports = router;
