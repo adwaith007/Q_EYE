@@ -10,7 +10,7 @@ $(function() {
       this.removeClass("active");
     },
     onInit: function() {
-      ui_add_log("Penguin initialized :)", "info");
+      ui_add_log("Uploader working!!", "info");
     },
     onComplete: function() {
       ui_add_log("All pending tranfers finished");
